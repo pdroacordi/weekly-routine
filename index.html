@@ -43,12 +43,22 @@
             text-align: center;
         }
         
+        #day-select {
+            display: block;
+            margin: 15px auto 0;
+            padding: 10px;
+            font-size: 16px;
+            width: 90%;
+            max-width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        
         .calendar-grid {
             display: grid;
             grid-template-columns: 80px repeat(7, 1fr);
-            grid-template-rows: 50px;
             grid-auto-rows: 60px;
-            position: relative;
         }
         
         .calendar-time {
@@ -56,10 +66,9 @@
             border-right: 1px solid #ddd;
             border-bottom: 1px solid #ddd;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-            padding-top: 8px;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--dark-grey);
             background-color: var(--light-grey);
         }
@@ -70,9 +79,6 @@
             text-align: center;
             font-weight: bold;
             background-color: var(--light-grey);
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
         
         .calendar-day-name {
@@ -160,6 +166,7 @@
             display: flex;
             align-items: center;
             margin-right: 15px;
+            margin-bottom: 5px;
         }
         
         .legend-color {
@@ -169,13 +176,38 @@
             border-radius: 2px;
         }
         
+        /* Mobile styles */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .calendar-container {
+                max-width: 100%;
+            }
+            
             .calendar-grid {
-                grid-template-columns: 60px repeat(7, 1fr);
+                grid-template-columns: 70px 1fr;
+            }
+            
+            .calendar-day, .calendar-cell {
+                display: none;
+            }
+            
+            .calendar-time {
+                display: flex;
+            }
+            
+            .current-day-column {
+                display: block;
             }
             
             .calendar-event {
-                font-size: 9px;
+                font-size: 13px;
+            }
+            
+            .legend-item {
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -184,6 +216,15 @@
     <div class="calendar-container">
         <div class="calendar-header">
             <h1>Rotina Semanal 📅</h1>
+            <select id="day-select">
+                <option value="0">Domingo ☀️</option>
+                <option value="1">Segunda 🏋️</option>
+                <option value="2">Terça 🏊</option>
+                <option value="3">Quarta 💪</option>
+                <option value="4">Quinta 🏊</option>
+                <option value="5">Sexta 🦵</option>
+                <option value="6">Sábado 🧘</option>
+            </select>
         </div>
         
         <div class="calendar-grid">
@@ -191,31 +232,31 @@
             <div class="calendar-time"></div>
             
             <!-- Days Row -->
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="0">
                 <span class="calendar-day-name">Domingo</span>
                 <span class="calendar-day-icon">☀️</span>
             </div>
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="1">
                 <span class="calendar-day-name">Segunda</span>
                 <span class="calendar-day-icon">🏋️</span>
             </div>
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="2">
                 <span class="calendar-day-name">Terça</span>
                 <span class="calendar-day-icon">🏊</span>
             </div>
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="3">
                 <span class="calendar-day-name">Quarta</span>
                 <span class="calendar-day-icon">💪</span>
             </div>
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="4">
                 <span class="calendar-day-name">Quinta</span>
                 <span class="calendar-day-icon">🏊</span>
             </div>
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="5">
                 <span class="calendar-day-name">Sexta</span>
                 <span class="calendar-day-icon">🦵</span>
             </div>
-            <div class="calendar-day">
+            <div class="calendar-day" data-day="6">
                 <span class="calendar-day-name">Sábado</span>
                 <span class="calendar-day-icon">🧘</span>
             </div>
@@ -223,334 +264,330 @@
             <!-- Time Slots and Calendar Cells -->
             <!-- 5:00 -->
             <div class="calendar-time">05:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-personal" style="top: 66%; height: 34%;">⏰ Preparar-se</div>
             </div>
-            <div class="calendar-cell">
-                <div class="calendar-event event-fitness" style="top: 66%; height: 34%;">⏰ Acordar</div>
-            </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-personal" style="top: 66%; height: 34%;">⏰ Preparar-se</div>
             </div>
-            <div class="calendar-cell">
-                <div class="calendar-event event-fitness" style="top: 66%; height: 34%;">⏰ Acordar</div>
-            </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-personal" style="top: 66%; height: 34%;">⏰ Preparar-se</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="4">
+                <div class="calendar-event event-personal" style="top: 66%; height: 34%;">⏰ Preparar-se</div>
+            </div>
+            <div class="calendar-cell" data-day="5">
+                <div class="calendar-event event-personal" style="top: 66%; height: 34%;">⏰ Preparar-se</div>
+            </div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 6:00 -->
             <div class="calendar-time">06:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-fitness" style="height: 100%;">🏋️ Musculação (PUSH)</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-fitness" style="height: 125%;">🏊 Natação</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-fitness" style="height: 100%;">🏋️ Musculação (PULL)</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-fitness" style="height: 125%;">🏊 Natação</div>
             </div>
-            <div class="calendar-cell">
-                <div class="calendar-event event-fitness" style="height: 100%;">🏋️ Musculação (LEGS)</div>
+            <div class="calendar-cell" data-day="5">
+                <div class="calendar-event event-fitness" style="height: 150%;">🏋️ Musculação (LEGS)</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 7:00 -->
             <div class="calendar-time">07:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-personal" style="height: 50%;">🚿 Retorno e banho</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">🍳 Café + 📖 Bíblia</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-personal" style="top: 33%; height: 33%;">🚿 Retorno e banho</div>
                 <div class="calendar-event event-personal" style="top: 66%; height: 33%;">🍳 Café</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-personal" style="height: 50%;">🚿 Retorno e banho</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">🍳 Café + 📖 Bíblia</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-personal" style="top: 33%; height: 33%;">🚿 Retorno e banho</div>
                 <div class="calendar-event event-personal" style="top: 66%; height: 33%;">🍳 Café</div>
             </div>
-            <div class="calendar-cell">
-                <div class="calendar-event event-personal" style="height: 50%;">🚿 Retorno e banho</div>
-                <div class="calendar-event event-personal" style="top: 50%; height: 50%;">🍳 Café + 📖 Bíblia</div>
+            <div class="calendar-cell" data-day="5">
+                <div class="calendar-event event-personal" style="top: 50%; height: 150%;">🪒 Cortar Cabelo</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 8:00 -->
             <div class="calendar-time">08:00</div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0">
                 <div class="calendar-event event-personal" style="height: 50%;">📖 Leitura da Bíblia</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-study" style="height: 100%;">🧠 Pesquisa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-study" style="height: 100%;">🧠 Pesquisa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-study" style="height: 100%;">🧠 Pesquisa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-study" style=" height: 100%;">🧠 Pesquisa</div>
             </div>
-            <div class="calendar-cell">
-                <div class="calendar-event event-study" style=" height: 100%;">🧠 Pesquisa</div>
-            </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="6">
                 <div class="calendar-event event-fitness" style="top: 50%; height: 150%;">🏋️ Musculação (Full Body)</div>
             </div>
             
             <!-- 9:00 -->
             <div class="calendar-time">09:00</div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0">
                 <div class="calendar-event event-personal" style="height: 150%;">🚶 Caminhada leve</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-work" style="height: 300%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-work" style="height: 300%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-work" style="height: 300%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-work" style="height: 300%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-work" style="height: 300%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 10:00 -->
             <div class="calendar-time">10:00</div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0">
                 <div class="calendar-event event-study" style="height: 200%;">🎥 Vídeo/Pesquisa</div>
             </div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6">
                 <div class="calendar-event event-study">🧠 Pesquisa/Edição</div>
             </div>
             
             <!-- 11:00 -->
             <div class="calendar-time">11:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6">
                 <div class="calendar-event event-personal">📚 Leitura de livro</div>
             </div>
             
             <!-- 12:00 -->
             <div class="calendar-time">12:00</div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0">
                 <div class="calendar-event event-free" style="height: 700%;">👨‍👩‍👧 Tempo com família/descanso</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-personal" style="height: 100%;">🍽️ Almoço e pausa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-personal" style="height: 100%;">🍽️ Almoço e pausa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-personal" style="height: 100%;">🍽️ Almoço e pausa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-personal" style="height: 100%;">🍽️ Almoço e pausa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-personal" style="height: 100%;">🍽️ Almoço e pausa</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="6">
                 <div class="calendar-event event-free" style="height: 700%;">👨‍👩‍👧 Família/Namoro/Estudos</div>
             </div>
             
             <!-- 13:00 -->
             <div class="calendar-time">13:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-work" style="height: 500%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-work" style="height: 500%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-work" style="height: 500%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-work" style="height: 500%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-work" style="height: 500%;">💼 Trabalho PicPay</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 14:00 to 17:00 (empty rows for work continuity) -->
             <div class="calendar-time">14:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <div class="calendar-time">15:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <div class="calendar-time">16:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <div class="calendar-time">17:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 18:00 -->
             <div class="calendar-time">18:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-personal" style="height: 50%;">🥪 Preparar lanche</div>
                 <div class="calendar-event event-transport" style="top: 50%; height: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-personal" style="height: 50%;">🥪 Preparar lanche</div>
                 <div class="calendar-event event-transport" style="top: 50%; height: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-personal" style="height: 50%;">🥪 Preparar lanche</div>
                 <div class="calendar-event event-transport" style="top: 50%; height: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-personal" style="height: 50%;">🥪 Preparar lanche</div>
                 <div class="calendar-event event-transport" style="top: 50%; height: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-personal" style="height: 50%;">🥪 Preparar lanche</div>
                 <div class="calendar-event event-transport" style="top: 50%; height: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="6">
                 <div class="calendar-event event-free" style="height: 100%;">🎸 Música/Descanso</div>
             </div>
             
             <!-- 19:00 -->
             <div class="calendar-time">19:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-study" style="height: 350%;">🎓 Faculdade</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-study" style="height: 350%;">🎓 Faculdade</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-study" style="height: 350%;">🎓 Faculdade</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-study" style="height: 350%;">🎓 Faculdade</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-study" style="height: 350%;">🎓 Faculdade</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="6">
                 <div class="calendar-event event-personal" style="height: 100%;">⛪ Missa</div>
             </div>
             
             <!-- 20:00 and 21:00 (empty for faculdade continuity) -->
             <div class="calendar-time">20:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <div class="calendar-time">21:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1"></div>
+            <div class="calendar-cell" data-day="2"></div>
+            <div class="calendar-cell" data-day="3"></div>
+            <div class="calendar-cell" data-day="4"></div>
+            <div class="calendar-cell" data-day="5"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 22:00 -->
             <div class="calendar-time">22:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-transport" style="top: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-transport" style="top: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-transport" style="top: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-transport" style="top: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-transport" style="top: 50%;">🚌 Transporte</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="6"></div>
             
             <!-- 23:00 -->
             <div class="calendar-time">23:00</div>
-            <div class="calendar-cell"></div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="0"></div>
+            <div class="calendar-cell" data-day="1">
                 <div class="calendar-event event-personal" style="height: 50%;">📚 Leitura</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">😴 Dormir</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="2">
                 <div class="calendar-event event-personal" style="height: 50%;">📚 Leitura</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">😴 Dormir</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="3">
                 <div class="calendar-event event-personal" style="height: 50%;">📚 Leitura</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">😴 Dormir</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="4">
                 <div class="calendar-event event-personal" style="height: 50%;">📚 Leitura</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">😴 Dormir</div>
             </div>
-            <div class="calendar-cell">
+            <div class="calendar-cell" data-day="5">
                 <div class="calendar-event event-personal" style="height: 50%;">🎸 Violão leve</div>
                 <div class="calendar-event event-personal" style="top: 50%; height: 50%;">😴 Dormir</div>
             </div>
-            <div class="calendar-cell"></div>
+            <div class="calendar-cell" data-day="6"></div>
         </div>
         
         <!-- Legend -->
@@ -585,5 +622,39 @@
             <p>✨ Organize sua vida, equilibre seus objetivos, e nunca esqueça de descansar! ✨</p>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current day of week (0-6)
+            const today = new Date().getDay();
+            
+            // Set default selected day to today
+            const daySelect = document.getElementById('day-select');
+            daySelect.value = today;
+            
+            // Initially show today's column on mobile
+            showSelectedDay(today);
+            
+            // Add event listener to day selector
+            daySelect.addEventListener('change', function() {
+                const selectedDay = parseInt(this.value);
+                showSelectedDay(selectedDay);
+            });
+            
+            // Function to show only the selected day column on mobile
+            function showSelectedDay(dayIndex) {
+                // First, hide all day headers and cells
+                document.querySelectorAll('.calendar-day, .calendar-cell').forEach(element => {
+                    element.classList.remove('current-day-column');
+                });
+                
+                // Show the selected day header and all cells for that day
+                document.querySelector(`.calendar-day[data-day="${dayIndex}"]`).classList.add('current-day-column');
+                document.querySelectorAll(`.calendar-cell[data-day="${dayIndex}"]`).forEach(cell => {
+                    cell.classList.add('current-day-column');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
